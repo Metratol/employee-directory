@@ -28,6 +28,7 @@ public class Employee extends Base {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "department_id", referencedColumnName = "id")
+    private Department department;
 
 
     @Override

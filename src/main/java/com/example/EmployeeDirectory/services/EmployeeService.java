@@ -1,6 +1,6 @@
-package EmployeeDirectory.services;
+package com.example.EmployeeDirectory.services;
 
-import EmployeeDirectory.repositories.dto.EmployeeDto;
+import com.example.EmployeeDirectory.repositories.dto.EmployeeDto;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package EmployeeDirectory.entity;
+package com.example.EmployeeDirectory.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

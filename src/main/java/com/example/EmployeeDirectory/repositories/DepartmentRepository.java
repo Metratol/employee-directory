@@ -1,6 +1,6 @@
-package EmployeeDirectory.repositories;
+package com.example.EmployeeDirectory.repositories;
 
-import EmployeeDirectory.entity.Department;
+import com.example.EmployeeDirectory.entity.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

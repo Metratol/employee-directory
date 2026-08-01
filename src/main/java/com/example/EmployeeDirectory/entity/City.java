@@ -1,6 +1,8 @@
-package EmployeeDirectory.entity;
+package com.example.EmployeeDirectory.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,16 +13,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "department")
-public class Department extends Base {
+@Table(name = "city")
+public class City extends Base{
 
-    @Column(name = "name", unique = true, nullable = false, length = 70)
+
+
+    @Column(name = "name", nullable = false, unique = true, length = 40)
     private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "city_id", referencedColumnName = "id", nullable = false)
-    private City city;
-
 
     @Override
     public Long getId() {

@@ -2,6 +2,7 @@ package com.example.EmployeeDirectory.repositories;
 
 import com.example.EmployeeDirectory.entity.Employee;
 import com.example.EmployeeDirectory.repositories.dto.EmployeeDto;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.awt.print.Pageable;
-import java.util.Collection;
 import java.util.Optional;
 
 
@@ -24,7 +24,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "ORDER BY emp.lastName ASC, emp.firstName ASC"
 
     )
-    Collection<EmployeeDto> findAllDto(Pageable pageable);
+    Page<EmployeeDto> findAllDto(Pageable pageable);
 
     @Transactional(readOnly = true)
     @Query("SELECT new com.example.EmployeeDirectory.repositories.dto.EmployeeDto(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
@@ -35,7 +35,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "ORDER BY emp.lastName ASC, emp.firstName ASC"
 
     )
-    Collection<EmployeeDto> findAllDtoByCityName(Pageable pageable, @Param("cityName") String cityName);
+    Page<EmployeeDto> findAllDtoByCityName(Pageable pageable, @Param("cityName") String cityName);
 
     @Transactional(readOnly = true)
     @Query("SELECT new com.example.EmployeeDirectory.repositories.dto.EmployeeDto(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
@@ -46,7 +46,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "AND dep.name = :departmentName " +
             "ORDER BY emp.lastName ASC, emp.firstName ASC"
     )
-    Collection<EmployeeDto> findAllDtoByCityAndDepartmentNames(Pageable pageable, @Param("cityName") String cityName, @Param("departmentName") String departmentName);
+    Page<EmployeeDto> findAllDtoByCityAndDepartmentNames(Pageable pageable, @Param("cityName") String cityName, @Param("departmentName") String departmentName);
 
     @Transactional(readOnly = true)
     @Query("SELECT new com.example.EmployeeDirectory.repositories.dto.EmployeeDto(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
@@ -56,7 +56,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "WHERE dep.name = :departmentName " +
             "ORDER BY emp.lastName ASC, emp.firstName ASC"
     )
-    Collection<EmployeeDto> findAllDtoByDepartmentName(Pageable pageable, @Param("departmentName") String departmentName);
+    Page<EmployeeDto> findAllDtoByDepartmentName(Pageable pageable, @Param("departmentName") String departmentName);
 
 
     @Transactional(readOnly = true)
@@ -68,7 +68,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "AND emp.lastName = :lastName " +
             "ORDER BY emp.lastName ASC, emp.firstName ASC"
     )
-    Collection<EmployeeDto> findAllDtoByFullName(@Param("firstName") String firstName, @Param("secondName") String secondName);
+    Page<EmployeeDto> findAllDtoByFullName(@Param("firstName") String firstName, @Param("secondName") String secondName);
 
     @Transactional(readOnly = true)
     @Query("SELECT new com.example.EmployeeDirectory.repositories.dto.EmployeeDto(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +

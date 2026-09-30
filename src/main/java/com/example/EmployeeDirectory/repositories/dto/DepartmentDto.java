@@ -1,4 +1,8 @@
 package com.example.EmployeeDirectory.repositories.dto;
 
-public record DepartmentDto(String name, String cityName) {
+import jakarta.validation.constraints.Size;
+
+public record DepartmentDto(
+        @Size(min=6, max=120) String name,
+        String cityName) {
 }

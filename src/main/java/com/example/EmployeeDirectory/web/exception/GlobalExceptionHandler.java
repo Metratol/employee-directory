@@ -1,4 +1,4 @@
-package com.example.EmployeeDirectory.exception;
+package com.example.EmployeeDirectory.web.exception;
 
 import org.springframework.dao.DataIntegrityViolationException;
 

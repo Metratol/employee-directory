@@ -1,10 +1,15 @@
 package com.example.EmployeeDirectory.services;
 
-import com.example.EmployeeDirectory.repositories.dto.DepartmentDto;
+import com.example.EmployeeDirectory.repositories.dto.create.DepartmentCreateDto;
+import com.example.EmployeeDirectory.web.responses.DepartmentResponseDto;
 
 import java.util.List;
 
 public interface DepartmentService {
-    List<DepartmentDto> getAll();
-    List<DepartmentDto> getAllDepartmentsByCity(String cityName);
+    List<DepartmentCreateDto> getAll();
+    List<DepartmentCreateDto> getAllDepartmentsByCity(String cityName);
+    DepartmentResponseDto create(DepartmentCreateDto dto);
 }
+
+
+

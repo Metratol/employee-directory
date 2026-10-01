@@ -1,4 +1,4 @@
-package com.example.EmployeeDirectory.repositories.dto;
+package com.example.EmployeeDirectory.repositories.dto.create;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

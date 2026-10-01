@@ -1,7 +1,7 @@
 package com.example.EmployeeDirectory.repositories;
 
 import com.example.EmployeeDirectory.entity.Employee;
-import com.example.EmployeeDirectory.repositories.dto.EmployeeDto;
+import com.example.EmployeeDirectory.web.views.EmployeeView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,24 +10,22 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.awt.print.Pageable;
+import java.util.List;
 import java.util.Optional;
 
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-
-    @Transactional(readOnly = true)
-    @Query("SELECT new com.example.EmployeeDirectory.repositories.dto.EmployeeDto(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
+    @Query("SELECT new com.example.EmployeeDirectory.web.views.EmployeeView(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
             "FROM Employee emp " +
             "JOIN emp.department dep " +
             "JOIN dep.city city " +
             "ORDER BY emp.lastName ASC, emp.firstName ASC"
 
     )
-    Page<EmployeeDto> findAllDto(Pageable pageable);
+    Page<EmployeeView> findAllDto(Pageable pageable);
 
-    @Transactional(readOnly = true)
-    @Query("SELECT new com.example.EmployeeDirectory.repositories.dto.EmployeeDto(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
+    @Query("SELECT new com.example.EmployeeDirectory.web.views.EmployeeView(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
             "FROM Employee emp " +
             "JOIN emp.department dep " +
             "JOIN dep.city city " +
@@ -35,10 +33,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "ORDER BY emp.lastName ASC, emp.firstName ASC"
 
     )
-    Page<EmployeeDto> findAllDtoByCityName(Pageable pageable, @Param("cityName") String cityName);
+    Page<EmployeeView> findAllDtoByCityName(Pageable pageable, @Param("cityName") String cityName);
 
-    @Transactional(readOnly = true)
-    @Query("SELECT new com.example.EmployeeDirectory.repositories.dto.EmployeeDto(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
+    @Query("SELECT new com.example.EmployeeDirectory.web.views.EmployeeView(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
             "FROM Employee emp " +
             "JOIN emp.department dep " +
             "JOIN dep.city city " +
@@ -46,21 +43,19 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "AND dep.name = :departmentName " +
             "ORDER BY emp.lastName ASC, emp.firstName ASC"
     )
-    Page<EmployeeDto> findAllDtoByCityAndDepartmentNames(Pageable pageable, @Param("cityName") String cityName, @Param("departmentName") String departmentName);
+    Page<EmployeeView> findAllDtoByCityAndDepartmentNames(Pageable pageable, @Param("cityName") String cityName, @Param("departmentName") String departmentName);
 
-    @Transactional(readOnly = true)
-    @Query("SELECT new com.example.EmployeeDirectory.repositories.dto.EmployeeDto(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
+    @Query("SELECT new com.example.EmployeeDirectory.web.views.EmployeeView(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
             "FROM Employee emp " +
             "JOIN emp.department dep " +
             "JOIN dep.city city " +
             "WHERE dep.name = :departmentName " +
             "ORDER BY emp.lastName ASC, emp.firstName ASC"
     )
-    Page<EmployeeDto> findAllDtoByDepartmentName(Pageable pageable, @Param("departmentName") String departmentName);
+    Page<EmployeeView> findAllDtoByDepartmentName(Pageable pageable, @Param("departmentName") String departmentName);
 
 
-    @Transactional(readOnly = true)
-    @Query("SELECT new com.example.EmployeeDirectory.repositories.dto.EmployeeDto(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
+    @Query("SELECT new com.example.EmployeeDirectory.web.views.EmployeeView(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
             "FROM Employee emp " +
             "JOIN emp.department dep " +
             "JOIN dep.city city " +
@@ -68,27 +63,23 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "AND emp.lastName = :lastName " +
             "ORDER BY emp.lastName ASC, emp.firstName ASC"
     )
-    Page<EmployeeDto> findAllDtoByFullName(@Param("firstName") String firstName, @Param("secondName") String secondName);
-
-    @Transactional(readOnly = true)
-    @Query("SELECT new com.example.EmployeeDirectory.repositories.dto.EmployeeDto(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
+    Page<EmployeeView> findAllDtoByFullName(Pageable pageable, @Param("firstName") String firstName, @Param("lastName") String lastName);
+    @Query("SELECT new com.example.EmployeeDirectory.web.views.EmployeeView(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
             "FROM Employee emp " +
             "JOIN emp.department dep " +
             "JOIN dep.city city " +
-            "WHERE emp.docsNo = :docsNo " +
-            "ORDER BY emp.lastName ASC, emp.firstName ASC"
+            "WHERE emp.docsNo = :docsNo "
     )
-    Optional<EmployeeDto> findDtoByDocsNo(@Param("docsNo") String docsNo);
+    Optional<EmployeeView> findDtoByDocsNo(@Param("docsNo") String docsNo);
 
-    @Transactional(readOnly = true)
-    @Query("SELECT new com.example.EmployeeDirectory.repositories.dto.EmployeeDto(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
+    @Query("SELECT new com.example.EmployeeDirectory.web.views.EmployeeView(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
             "FROM Employee emp " +
             "JOIN emp.department dep " +
             "JOIN dep.city city " +
-            "WHERE emp.docsNo = :docsNo " +
+            "WHERE emp.phoneNumber = :phoneNumber " +
             "ORDER BY emp.lastName ASC, emp.firstName ASC"
     )
-    Optional<EmployeeDto> findDtoByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+    List<EmployeeView> findDtoByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 
 
 }

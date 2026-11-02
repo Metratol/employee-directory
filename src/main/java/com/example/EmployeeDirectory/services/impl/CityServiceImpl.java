@@ -6,6 +6,7 @@ import com.example.EmployeeDirectory.repositories.CityRepository;
 import com.example.EmployeeDirectory.repositories.dto.create.CityCreateDto;
 import com.example.EmployeeDirectory.web.responses.CityResponseDto;
 import com.example.EmployeeDirectory.services.CityService;
+import com.example.EmployeeDirectory.web.views.CityView;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,9 +26,9 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public List<CityCreateDto> getAll() {
+    public List<CityView> getAll() {
         return repository.findAll().stream()
-                .map(city -> modelMapper.map(city, CityCreateDto.class))
+                .map(city -> modelMapper.map(city, CityView.class))
                 .collect(Collectors.toList());
     }
     @Transactional

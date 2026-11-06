@@ -1,35 +1,31 @@
 package com.example.EmployeeDirectory.services.impl;
 
 import com.example.EmployeeDirectory.entity.City;
+import com.example.EmployeeDirectory.mappers.CityMapper;
 import com.example.EmployeeDirectory.web.exception.ConflictException;
 import com.example.EmployeeDirectory.repositories.CityRepository;
 import com.example.EmployeeDirectory.repositories.dto.create.CityCreateDto;
 import com.example.EmployeeDirectory.web.responses.CityResponseDto;
 import com.example.EmployeeDirectory.services.CityService;
 import com.example.EmployeeDirectory.web.views.CityView;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CityServiceImpl implements CityService {
 
     private final CityRepository repository;
-    private final ModelMapper modelMapper;
+    private final CityMapper mapper;
 
-    public CityServiceImpl(CityRepository repository, ModelMapper modelMapper) {
+    public CityServiceImpl(CityRepository repository, CityMapper mapper) {
         this.repository = repository;
-        this.modelMapper = modelMapper;
+        this.mapper = mapper;
     }
 
     @Override
     public List<CityView> getAll() {
-        return repository.findAll().stream()
-                .map(city -> modelMapper.map(city, CityView.class))
-                .collect(Collectors.toList());
+        return mapper.toViews(repository.findAll());
     }
     @Transactional
     @Override
@@ -39,7 +35,7 @@ public class CityServiceImpl implements CityService {
         }
         City newCity = new City(city.name());
         repository.save(newCity);
-        return modelMapper.map(newCity, CityResponseDto.class);
+        return mapper.toResponse(newCity);
 
 
 

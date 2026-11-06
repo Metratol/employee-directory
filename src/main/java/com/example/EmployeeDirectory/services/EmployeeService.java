@@ -1,11 +1,10 @@
 package com.example.EmployeeDirectory.services;
 
 import com.example.EmployeeDirectory.repositories.dto.create.EmployeeCreateDto;
-import com.example.EmployeeDirectory.repositories.dto.update.EmployeeUpdateDto;
 import com.example.EmployeeDirectory.web.responses.EmployeeResponseDto;
 import com.example.EmployeeDirectory.web.views.EmployeeView;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface EmployeeService {

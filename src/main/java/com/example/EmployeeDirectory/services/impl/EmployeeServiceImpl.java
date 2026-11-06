@@ -3,36 +3,36 @@ package com.example.EmployeeDirectory.services.impl;
 import com.example.EmployeeDirectory.entity.City;
 import com.example.EmployeeDirectory.entity.Department;
 import com.example.EmployeeDirectory.entity.Employee;
+import com.example.EmployeeDirectory.mappers.EmployeeMapper;
 import com.example.EmployeeDirectory.repositories.CityRepository;
 import com.example.EmployeeDirectory.repositories.DepartmentRepository;
 import com.example.EmployeeDirectory.repositories.EmployeeRepository;
 import com.example.EmployeeDirectory.repositories.dto.create.EmployeeCreateDto;
-import com.example.EmployeeDirectory.repositories.dto.update.EmployeeUpdateDto;
+
 import com.example.EmployeeDirectory.services.EmployeeService;
-import com.example.EmployeeDirectory.web.exception.ConflictException;
 import com.example.EmployeeDirectory.web.exception.ModelNotFoundException;
 import com.example.EmployeeDirectory.web.responses.EmployeeResponseDto;
 import com.example.EmployeeDirectory.web.views.EmployeeView;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
-    private final ModelMapper modelMapper;
+
     private final CityRepository cityRepository;
     private final DepartmentRepository departmentRepository;
+    private final EmployeeMapper mapper;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, ModelMapper modelMapper, CityRepository cityRepository, DepartmentRepository departmentRepository) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, CityRepository cityRepository, DepartmentRepository departmentRepository, EmployeeMapper mapper) {
         this.employeeRepository = employeeRepository;
-        this.modelMapper = modelMapper;
         this.cityRepository = cityRepository;
         this.departmentRepository = departmentRepository;
+        this.mapper = mapper;
     }
 
 
@@ -82,9 +82,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(department.isEmpty()){
             throw new ModelNotFoundException("Указанный отдел не найден! Проверьте название или добавьте новый город.");
         }
-        Employee employee = modelMapper.map(dto, Employee.class);
+        Employee employee = mapper.toModel(dto);
         employeeRepository.save(employee);
-        return modelMapper.map(employee, EmployeeResponseDto.class);
+        return mapper.toResponse(employee);
     }
 
 

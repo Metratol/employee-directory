@@ -84,6 +84,6 @@ public class EmployeeController {
     @DeleteMapping("/{docsNo}")
     public ResponseEntity<String> delete(@PathVariable("docsNo") String docsNo){
         if(!employeeService.delete(docsNo)) throw new ConflictException("Не удалось удалить");
-        return ResponseEntity.ok("Удален пользователь с номером документов " + docsNo);
+        return ResponseEntity.ok("Удален пользователь");
     }
 }

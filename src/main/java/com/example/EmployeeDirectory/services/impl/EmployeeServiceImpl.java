@@ -98,9 +98,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     @Override
     public boolean delete(String docsNo) {
-        employeeRepository.findByDocsNo(docsNo)
+        Employee employee = employeeRepository.findByDocsNo(docsNo)
                 .orElseThrow(() -> new ModelNotFoundException("Сотрудник не найден"));
-        return employeeRepository.deleteByDocsNo(docsNo);
+        employeeRepository.delete(employee);
+        return true;
     }
 
 

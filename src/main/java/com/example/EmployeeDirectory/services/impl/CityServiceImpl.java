@@ -44,8 +44,9 @@ public class CityServiceImpl implements CityService {
     @Transactional
     @Override
     public boolean delete(String name) {
-        repository.findByName(name)
+        City city = repository.findByName(name)
                 .orElseThrow(() -> new ModelNotFoundException("Город не найден"));
-        return repository.deleteByName(name);
+       repository.deleteByName(name);
+       return true ;
     }
 }

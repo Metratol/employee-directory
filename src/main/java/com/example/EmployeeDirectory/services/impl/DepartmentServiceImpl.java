@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -88,32 +89,38 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentResponseDto moveToAnotherCity(DepartmentCityUpdateDto dto) {
 
 
+        Department department = departmentRepository
+                .findByNameAndCity_Name(dto.departmentName(), dto.oldCityName())
+                .orElseThrow(() -> new ModelNotFoundException(
+                        "Отдела не существует. Проверьте название или город."));
 
-        City city = cityRepository.findByName(dto.newCityName())
-                .orElseThrow(() -> new ModelNotFoundException("Указанный город не найден! Проверьте название или добавьте новый город. Через /cities."));
 
-
-        if(departmentRepository.findByNameAndCity_Name(dto.departmentName(),dto.newCityName()).isPresent()){
-            throw new ConflictException("Отдел с данным названием уже существует в указанном городе");
+        if (Objects.equals(dto.newCityName(), dto.oldCityName())) {
+            return mapper.toResponse(department);
         }
 
+        if (departmentRepository
+                .findByNameAndCity_Name(dto.departmentName(), dto.newCityName())
+                .isPresent()) {
+            throw new ConflictException(
+                    "Отдел с данным названием уже существует в указанном городе");
+        }
 
-        Department department = departmentRepository.findByNameAndCity_Name(dto.departmentName(), dto.oldCityName())
-                .orElseThrow(() ->  new ModelNotFoundException("Отдела не существует. Проверьте название или город."));
-
-
+        City city = cityRepository.findByName(dto.newCityName())
+                .orElseThrow(() -> new ModelNotFoundException(
+                        "Указанный город не найден! Проверьте название или добавьте новый город. Через /cities."));
 
         department.setCity(city);
 
-        departmentRepository.save(department);
         return mapper.toResponse(department);
     }
     @Transactional
     @Override
     public boolean delete(String name, String cityName) {
-        departmentRepository.findByNameAndCity_Name(name, cityName)
+       Department department = departmentRepository.findByNameAndCity_Name(name, cityName)
                 .orElseThrow(() -> new ModelNotFoundException("Отдел не найден"));
-        return departmentRepository.deleteByNameAndCity_Name(name, cityName);
+        departmentRepository.delete(department);
+        return true ;
     }
 
 }

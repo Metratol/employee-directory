@@ -13,6 +13,7 @@ import com.example.EmployeeDirectory.services.EmployeeService;
 import com.example.EmployeeDirectory.web.exception.ModelNotFoundException;
 import com.example.EmployeeDirectory.web.responses.EmployeeResponseDto;
 import com.example.EmployeeDirectory.web.views.EmployeeView;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
@@ -37,38 +38,38 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 
     @Override
-    public List<EmployeeView> getAll(Pageable pageable) {
-        return employeeRepository.findAllDto(pageable).stream().toList();
+    public Page<EmployeeView> getAll(Pageable pageable) {
+        return employeeRepository.findAllDto(pageable);
     }
 
     @Override
-    public List<EmployeeView> getAllByCity(Pageable pageable, String cityName) {
-        return null;
+    public Page<EmployeeView> getAllByCity(Pageable pageable, String cityName) {
+        return employeeRepository.findAllDtoByCityName(pageable, cityName);
     }
 
     @Override
-    public List<EmployeeView> getAllByDepartment(Pageable pageable, String departmentName) {
-        return null;
+    public Page<EmployeeView> getAllByDepartment(Pageable pageable, String departmentName) {
+        return employeeRepository.findAllDtoByDepartmentName(pageable, departmentName);
     }
 
     @Override
-    public List<EmployeeView> getAllByDepartmentAndCity(Pageable pageable, String departmentName, String cityName) {
-        return null;
+    public Page<EmployeeView> getAllByDepartmentAndCity(Pageable pageable, String departmentName, String cityName) {
+        return employeeRepository.findAllDtoByCityAndDepartmentNames(pageable,cityName, departmentName);
     }
 
     @Override
-    public EmployeeView getByDocsNo(Pageable pageable, String docsNo) {
-        return null;
+    public EmployeeView getByDocsNo(String docsNo) {
+        return employeeRepository.findDtoByDocsNo(docsNo).orElseThrow(() -> new ModelNotFoundException("Не найден пользователь с указанным номером документов"));
     }
 
     @Override
-    public EmployeeView getByPhoneNumber(Pageable pageable, String phoneNumber) {
-        return null;
+    public EmployeeView getByPhoneNumber(String phoneNumber) {
+        return employeeRepository.findDtoByPhoneNumber(phoneNumber).orElseThrow(() -> new ModelNotFoundException("Не найден пользователь с указанным номером телефона"));
     }
 
     @Override
-    public List<EmployeeView> getByFullName(Pageable pageable, String firstName, String secondName) {
-        return null;
+    public List<EmployeeView> getByFullName(String firstName, String secondName) {
+        return employeeRepository.findAllDtoByFullName(firstName, secondName);
     }
 
     @Transactional
@@ -76,13 +77,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeResponseDto create(EmployeeCreateDto dto) {
         Optional<City> city = cityRepository.findByName(dto.cityName());
         if(city.isEmpty()){
-            throw new ModelNotFoundException("Указанный город не найден! Проверьте название или добавьте новый город.");
+            throw new ModelNotFoundException("Указанный город не найден! Проверьте название или добавьте новый город через /cities.");
         }
         Optional<Department> department = departmentRepository.getByName(dto.departmentName());
         if(department.isEmpty()){
-            throw new ModelNotFoundException("Указанный отдел не найден! Проверьте название или добавьте новый город.");
+            throw new ModelNotFoundException("Указанный отдел не найден! Проверьте название или добавьте новый отдел через /departments.");
         }
-        Employee employee = mapper.toModel(dto);
+        Employee employee = mapper.toModel(dto, department.get());
         employeeRepository.save(employee);
         return mapper.toResponse(employee);
     }

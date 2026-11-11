@@ -63,7 +63,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "AND emp.secondName = :secondName " +
             "ORDER BY emp.secondName ASC, emp.firstName ASC"
     )
-    Page<EmployeeView> findAllDtoByFullName(Pageable pageable, @Param("firstName") String firstName, @Param("secondName") String secondName);
+    List<EmployeeView> findAllDtoByFullName(@Param("firstName") String firstName, @Param("secondName") String secondName);
     @Query("SELECT new com.example.EmployeeDirectory.web.views.EmployeeView(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
             "FROM Employee emp " +
             "JOIN emp.department dep " +
@@ -79,7 +79,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "WHERE emp.phoneNumber = :phoneNumber " +
             "ORDER BY emp.secondName ASC, emp.firstName ASC"
     )
-    List<EmployeeView> findDtoByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+    Optional<EmployeeView> findDtoByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 
 
 }

@@ -3,6 +3,8 @@ package com.example.EmployeeDirectory.services.impl;
 import com.example.EmployeeDirectory.entity.City;
 import com.example.EmployeeDirectory.entity.Department;
 import com.example.EmployeeDirectory.mappers.DepartmentMapper;
+import com.example.EmployeeDirectory.repositories.dto.update.DepartmentCityUpdateDto;
+import com.example.EmployeeDirectory.repositories.dto.update.DepartmentNameUpdateDto;
 import com.example.EmployeeDirectory.web.exception.ConflictException;
 import com.example.EmployeeDirectory.repositories.CityRepository;
 import com.example.EmployeeDirectory.repositories.DepartmentRepository;
@@ -57,6 +59,38 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentRepository.save(department);
         return mapper.toResponse(department);
 
+    }
+
+    @Override
+    public DepartmentResponseDto update(DepartmentNameUpdateDto dto) {
+        Optional<City> city = cityRepository.findByName(dto.city());
+        if(city.isEmpty()){
+            throw new ModelNotFoundException("Указанный город не найден! Проверьте название.");
+        }
+        Optional<Department> container = departmentRepository.getByName(dto.departmentName());
+        if(container.isEmpty()){
+            throw new ConflictException("Отдела не существует. Проверьте название.");
+        }
+        Department department = container.get();
+        department.setName(dto.newDepartmentName());
+        departmentRepository.save(department);
+        return mapper.toResponse(department);
+    }
+
+    @Override
+    public DepartmentResponseDto moveToAnotherCity(DepartmentCityUpdateDto dto) {
+        Optional<City> city = cityRepository.findByName(dto.oldCityName());
+        if(city.isEmpty()){
+            throw new ModelNotFoundException("Указанный город не найден! Проверьте название или добавьте новый город. Через /cities");
+        }
+        Optional<Department> container = departmentRepository.getByName(dto.departmentName());
+        if(container.isEmpty()){
+            throw new ConflictException("Отдела не существует. Проверьте название");
+        }
+        Department department = container.get();
+        department.setCity(city.get());
+        departmentRepository.save(department);
+        return mapper.toResponse(department);
     }
 
 }

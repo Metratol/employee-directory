@@ -1,6 +1,8 @@
 package com.example.EmployeeDirectory.web.controllers;
 
 import com.example.EmployeeDirectory.repositories.dto.create.DepartmentCreateDto;
+import com.example.EmployeeDirectory.repositories.dto.update.DepartmentCityUpdateDto;
+import com.example.EmployeeDirectory.repositories.dto.update.DepartmentNameUpdateDto;
 import com.example.EmployeeDirectory.services.DepartmentService;
 import com.example.EmployeeDirectory.web.responses.DepartmentResponseDto;
 import com.example.EmployeeDirectory.web.views.DepartmentView;
@@ -33,6 +35,15 @@ public class DepartmentController{
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(department.create(create));
+    }
+
+    @PatchMapping("/updateName")
+    public ResponseEntity<DepartmentResponseDto> updateName(@Valid @RequestBody DepartmentNameUpdateDto update){
+        return ResponseEntity.ok(department.update(update));
+    }
+    @PatchMapping("/updateCity")
+    public ResponseEntity<DepartmentResponseDto> updateCity(@Valid @RequestBody DepartmentCityUpdateDto update){
+        return ResponseEntity.ok(department.moveToAnotherCity(update));
     }
 
 

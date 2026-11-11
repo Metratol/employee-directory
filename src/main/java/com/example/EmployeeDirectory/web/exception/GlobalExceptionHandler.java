@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDbConflict(DataIntegrityViolationException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body(new ErrorResponse(409, "Запись уже существует"));
+                .body(new ErrorResponse(409, "Конфликт при попытке совершить операцию" + ex));
     }
 }
 

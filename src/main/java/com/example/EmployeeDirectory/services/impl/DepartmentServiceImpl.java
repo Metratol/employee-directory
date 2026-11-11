@@ -69,7 +69,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         Optional<Department> container = departmentRepository.findByNameAndCity_Name(dto.departmentName(), dto.city());
         if(container.isEmpty()){
-            throw new ConflictException("Отдела не существует. Проверьте название и город.");
+            throw new ModelNotFoundException("Отдела не существует. Проверьте название и город.");
         }
         Department department = container.get();
         department.setName(dto.newDepartmentName());

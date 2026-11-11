@@ -77,11 +77,11 @@ public class EmployeeController {
                 .status(HttpStatus.CREATED)
                 .body(employeeService.create(createDto));
     }
-    @PatchMapping("/update")
+    @PatchMapping
     public ResponseEntity<EmployeeResponseDto> update(@Valid @RequestBody EmployeeUpdateDto dto){
         return ResponseEntity.ok(employeeService.update(dto));
     }
-    @DeleteMapping("/delete/{docsNo}")
+    @DeleteMapping("/{docsNo}")
     public ResponseEntity<String> delete(@PathVariable("docsNo") String docsNo){
         if(!employeeService.delete(docsNo)) throw new ConflictException("Не удалось удалить");
         return ResponseEntity.ok("Удален пользователь с номером документов " + docsNo);

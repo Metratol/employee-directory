@@ -5,9 +5,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record EmployeeUpdateDto(
-        @NotNull String docsNo,
-        @NotNull @Size(min = 2, max = 25) String firstName,
-        @NotNull @Size(min = 2, max = 40) String secondName,
+        @NotNull @Size(min = 10,max = 10) String docsNo,
+        @NotNull @Size(min = 2, max = 20) String firstName,
+        @NotNull @Size(min = 2, max = 25) String secondName,
         @NotNull @Pattern(regexp = "\\+?[0-9]{7,15}") String phoneNumber,
         @NotNull String departmentName,
         @NotNull String cityName

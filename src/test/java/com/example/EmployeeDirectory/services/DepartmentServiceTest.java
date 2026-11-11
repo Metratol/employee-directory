@@ -30,35 +30,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.never;
 
-import com.example.EmployeeDirectory.dto.create.DepartmentCreateDto;
-import com.example.EmployeeDirectory.dto.update.DepartmentCityUpdateDto;
-import com.example.EmployeeDirectory.dto.update.DepartmentNameUpdateDto;
-import com.example.EmployeeDirectory.entity.City;
-import com.example.EmployeeDirectory.entity.Department;
-import com.example.EmployeeDirectory.mappers.DepartmentMapper;
-import com.example.EmployeeDirectory.repositories.CityRepository;
-import com.example.EmployeeDirectory.repositories.DepartmentRepository;
-import com.example.EmployeeDirectory.services.impl.DepartmentServiceImpl;
-import com.example.EmployeeDirectory.web.exception.ConflictException;
-import com.example.EmployeeDirectory.web.exception.ModelNotFoundException;
-import com.example.EmployeeDirectory.web.responses.DepartmentResponseDto;
-import com.example.EmployeeDirectory.web.views.DepartmentView;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
-import static org.mockito.Mockito.never;
 
 @ExtendWith(MockitoExtension.class)
 class DepartmentServiceTest {
@@ -150,7 +122,6 @@ class DepartmentServiceTest {
 
     @Test
     void update_shouldThrow_whenCityMissing() {
-        // ИСПРАВЛЕНО: порядок (departmentName, newDepartmentName, city)
         DepartmentNameUpdateDto dto = new DepartmentNameUpdateDto("IT", "IT2", "Москва");
         given(cityRepository.findByName("Москва")).willReturn(Optional.empty());
 
@@ -192,8 +163,7 @@ class DepartmentServiceTest {
 
         assertThat(result).isEqualTo(expected);
 
-        // ИСПРАВЛЕНО: удален ложный then(...).should(never()).findByNameAndCity_Name("IT", "Москва");
-        // Сервис ОБЯЗАН найти отдел перед проверкой имен. Проверяем только, что не сохраняли.
+
         then(departmentRepository).should(never()).save(any());
     }
 
@@ -247,7 +217,6 @@ class DepartmentServiceTest {
         assertThatThrownBy(() -> service.moveToAnotherCity(dto))
                 .isInstanceOf(ModelNotFoundException.class);
 
-        // Если сервис не дошел до поиска города, проверяем что cityRepository не вызывался
         then(cityRepository).shouldHaveNoInteractions();
     }
 
@@ -266,7 +235,6 @@ class DepartmentServiceTest {
 
         assertThat(result).isEqualTo(expected);
 
-        // ИСПРАВЛЕНО: вместо shouldHaveNoInteractions проверяем конкретный вызов
         then(cityRepository).should(never()).findByName(any());
     }
 
@@ -284,8 +252,7 @@ class DepartmentServiceTest {
         assertThatThrownBy(() -> service.moveToAnotherCity(dto))
                 .isInstanceOf(ConflictException.class);
 
-        // ИСПРАВЛЕНО: удален ложный shouldHaveNoInteractions.
-        // Сервис действительно находит отдел в старом городе (дергает бд), но не ищет новый город.
+
         then(cityRepository).should(never()).findByName(any());
     }
 

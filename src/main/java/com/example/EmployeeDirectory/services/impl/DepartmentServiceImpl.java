@@ -41,7 +41,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<DepartmentView> getAllDepartmentsByCity(String cityName) {
         if(!cityRepository.existsByName(cityName)){
-            throw new ConflictException("Не найден город с указанным названием! Проверьте название.");
+            throw new ModelNotFoundException("Не найден город с указанным названием! Проверьте название.");
         }
         return mapper.toViews(departmentRepository.findByCityName(cityName));
     }
@@ -52,7 +52,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         if(city.isEmpty()){
             throw new ModelNotFoundException("Указанный город не найден! Проверьте название или добавьте новый город. Через /cities");
         }
-        if(departmentRepository.existsByName(dto.name())){
+        if(departmentRepository.findByNameAndCity_Name(dto.name(),dto.cityName()).isPresent()){
             throw new ConflictException("Отдел уже существует");
         }
         Department department = new Department(dto.name(), city.get());
@@ -60,35 +60,30 @@ public class DepartmentServiceImpl implements DepartmentService {
         return mapper.toResponse(department);
 
     }
-
+    @Transactional
     @Override
     public DepartmentResponseDto update(DepartmentNameUpdateDto dto) {
         Optional<City> city = cityRepository.findByName(dto.city());
         if(city.isEmpty()){
             throw new ModelNotFoundException("Указанный город не найден! Проверьте название.");
         }
-        Optional<Department> container = departmentRepository.getByName(dto.departmentName());
+        Optional<Department> container = departmentRepository.findByNameAndCity_Name(dto.departmentName(), dto.city());
         if(container.isEmpty()){
-            throw new ConflictException("Отдела не существует. Проверьте название.");
+            throw new ConflictException("Отдела не существует. Проверьте название и город.");
         }
         Department department = container.get();
         department.setName(dto.newDepartmentName());
         departmentRepository.save(department);
         return mapper.toResponse(department);
     }
-
+    @Transactional
     @Override
     public DepartmentResponseDto moveToAnotherCity(DepartmentCityUpdateDto dto) {
-        Optional<City> city = cityRepository.findByName(dto.oldCityName());
-        if(city.isEmpty()){
-            throw new ModelNotFoundException("Указанный город не найден! Проверьте название или добавьте новый город. Через /cities");
-        }
-        Optional<Department> container = departmentRepository.getByName(dto.departmentName());
-        if(container.isEmpty()){
-            throw new ConflictException("Отдела не существует. Проверьте название");
-        }
-        Department department = container.get();
-        department.setCity(city.get());
+        City city = cityRepository.findByName(dto.newCityName())
+                .orElseThrow(() -> new ModelNotFoundException("Указанный город не найден! Проверьте название или добавьте новый город. Через /cities."));
+        Department department = departmentRepository.findByNameAndCity_Name(dto.departmentName(), dto.oldCityName())
+                .orElseThrow(() ->  new ModelNotFoundException("Отдела не существует. Проверьте название или город."));
+        department.setCity(city);
         departmentRepository.save(department);
         return mapper.toResponse(department);
     }

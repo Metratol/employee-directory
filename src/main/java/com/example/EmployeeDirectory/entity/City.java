@@ -22,6 +22,10 @@ public class City extends Base{
     @OneToMany(mappedBy = "city", cascade = CascadeType.REMOVE)
     private List<Department> departments = new ArrayList<>();
 
+    public City(String name) {
+        this.name = name;
+    }
+
     @Override
     public Long getId() {
         return super.getId();

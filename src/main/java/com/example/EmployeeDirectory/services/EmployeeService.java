@@ -25,4 +25,5 @@ public interface EmployeeService {
 
     EmployeeResponseDto create (EmployeeCreateDto dto);
     EmployeeResponseDto update(EmployeeUpdateDto dto);
+    boolean delete(String docsNo);
 }

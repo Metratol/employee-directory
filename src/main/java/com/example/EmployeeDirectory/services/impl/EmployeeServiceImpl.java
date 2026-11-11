@@ -96,5 +96,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return mapper.toResponse(employee);
     }
 
+    @Override
+    public boolean delete(String docsNo) {
+        return employeeRepository.deleteByDocsNo(docsNo);
+    }
+
 
 }

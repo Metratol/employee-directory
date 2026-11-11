@@ -14,6 +14,8 @@ public interface DepartmentService {
     DepartmentResponseDto create(DepartmentCreateDto dto);
     DepartmentResponseDto update(DepartmentNameUpdateDto dto);
     DepartmentResponseDto moveToAnotherCity(DepartmentCityUpdateDto dto);
+    boolean delete(String name, String cityName);
+
 }
 
 

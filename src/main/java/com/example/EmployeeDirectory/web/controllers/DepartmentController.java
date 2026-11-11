@@ -7,6 +7,7 @@ import com.example.EmployeeDirectory.services.DepartmentService;
 import com.example.EmployeeDirectory.web.responses.DepartmentResponseDto;
 import com.example.EmployeeDirectory.web.views.DepartmentView;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +45,11 @@ public class DepartmentController{
     @PatchMapping("/updateCity")
     public ResponseEntity<DepartmentResponseDto> updateCity(@Valid @RequestBody DepartmentCityUpdateDto update){
         return ResponseEntity.ok(department.moveToAnotherCity(update));
+    }
+    @DeleteMapping("/delete/{cityName}/{departmentName}")
+    public ResponseEntity<String> delete(@NotNull String name, @NotNull String cityName){
+        department.delete(name,cityName);
+        return ResponseEntity.ok(String.format("Удален отдел %s в городе %s",name, cityName));
     }
 
 

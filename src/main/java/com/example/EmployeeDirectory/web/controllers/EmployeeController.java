@@ -1,9 +1,11 @@
 package com.example.EmployeeDirectory.web.controllers;
 
 import com.example.EmployeeDirectory.repositories.dto.create.EmployeeCreateDto;
+import com.example.EmployeeDirectory.repositories.dto.update.EmployeeUpdateDto;
 import com.example.EmployeeDirectory.services.EmployeeService;
 import com.example.EmployeeDirectory.web.responses.EmployeeResponseDto;
 import com.example.EmployeeDirectory.web.views.EmployeeView;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -54,24 +56,33 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getAll(pageable));
     }
     @GetMapping("/phoneNumber")
-    ResponseEntity<EmployeeView> byPhoneNumber(@RequestParam("phoneNumber")
+    public ResponseEntity<EmployeeView> byPhoneNumber(@RequestParam("phoneNumber")
                                                              @Pattern(regexp = "^(\\+7|7|8)?\\d{10}$",
                                                                      message = "Некорректный номер телефона")
                                                                         String phone){
         return ResponseEntity.ok(employeeService.getByPhoneNumber(phone));
     }
     @GetMapping("/docs")
-    ResponseEntity<EmployeeView> byDocsNumber(@RequestParam("docsNumber") String docs){
+    public ResponseEntity<EmployeeView> byDocsNumber(@RequestParam("docsNumber") String docs){
         return ResponseEntity.ok(employeeService.getByDocsNo(docs));
     }
     @GetMapping("/fullname")
-    ResponseEntity<List<EmployeeView>> byFullName(@RequestParam String name, @RequestParam String secondName){
+    public ResponseEntity<List<EmployeeView>> byFullName(@RequestParam String name, @RequestParam String secondName){
         return ResponseEntity.ok(employeeService.getByFullName(name,secondName));
     }
     @PostMapping
-    ResponseEntity<EmployeeResponseDto> create(@RequestBody EmployeeCreateDto createDto){
+    public ResponseEntity<EmployeeResponseDto> create(@Valid @RequestBody EmployeeCreateDto createDto){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(employeeService.create(createDto));
+    }
+    @PatchMapping("/update")
+    public ResponseEntity<EmployeeResponseDto> update(@Valid @RequestBody EmployeeUpdateDto dto){
+        return ResponseEntity.ok(employeeService.update(dto));
+    }
+    @DeleteMapping("/delete/{docsNo}")
+    public ResponseEntity<String> delete(@PathVariable("docsNo") String docsNo){
+        employeeService.delete(docsNo);
+        return ResponseEntity.ok("Удален пользователь с номером документов " + docsNo);
     }
 }

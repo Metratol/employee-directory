@@ -31,5 +31,8 @@ public class CityController {
     }
 
     @DeleteMapping("/delete/{name}")
-    public ResponseEntity<String> delete(@PathVariable("name") String name){return ResponseEntity.ok("Город успешно удален");}
+    public ResponseEntity<String> delete(@PathVariable("name") String name){
+        cityService.delete(name);
+        return ResponseEntity.ok(String.format("Город %s успешно удален", name));
+    }
 }

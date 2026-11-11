@@ -1,8 +1,7 @@
 package com.example.EmployeeDirectory.web.controllers;
 
-import com.example.EmployeeDirectory.repositories.dto.create.CityCreateDto;
+import com.example.EmployeeDirectory.dto.create.CityCreateDto;
 import com.example.EmployeeDirectory.services.CityService;
-import com.example.EmployeeDirectory.web.exception.ConflictException;
 import com.example.EmployeeDirectory.web.responses.CityResponseDto;
 import com.example.EmployeeDirectory.web.views.CityView;
 import jakarta.validation.Valid;

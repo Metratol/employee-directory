@@ -1,30 +1,24 @@
 package com.example.EmployeeDirectory.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import java.util.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "city")
 public class City extends Base{
 
 
-
+    @NonNull
     @Column(name = "name", nullable = false, unique = true, length = 40)
     private String name;
     @OneToMany(mappedBy = "city", cascade = CascadeType.REMOVE)
     private List<Department> departments = new ArrayList<>();
-
-    public City(String name) {
-        this.name = name;
-    }
 
     @Override
     public Long getId() {

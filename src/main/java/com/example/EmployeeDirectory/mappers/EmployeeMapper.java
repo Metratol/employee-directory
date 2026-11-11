@@ -2,8 +2,8 @@ package com.example.EmployeeDirectory.mappers;
 
 import com.example.EmployeeDirectory.entity.Department;
 import com.example.EmployeeDirectory.entity.Employee;
-import com.example.EmployeeDirectory.repositories.dto.create.EmployeeCreateDto;
-import com.example.EmployeeDirectory.repositories.dto.update.EmployeeUpdateDto;
+import com.example.EmployeeDirectory.dto.create.EmployeeCreateDto;
+import com.example.EmployeeDirectory.dto.update.EmployeeUpdateDto;
 import com.example.EmployeeDirectory.web.responses.EmployeeResponseDto;
 import com.example.EmployeeDirectory.web.views.EmployeeView;
 import org.mapstruct.*;

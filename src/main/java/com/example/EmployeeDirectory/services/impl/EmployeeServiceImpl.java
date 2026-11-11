@@ -7,8 +7,8 @@ import com.example.EmployeeDirectory.mappers.EmployeeMapper;
 import com.example.EmployeeDirectory.repositories.CityRepository;
 import com.example.EmployeeDirectory.repositories.DepartmentRepository;
 import com.example.EmployeeDirectory.repositories.EmployeeRepository;
-import com.example.EmployeeDirectory.repositories.dto.create.EmployeeCreateDto;
-import com.example.EmployeeDirectory.repositories.dto.update.EmployeeUpdateDto;
+import com.example.EmployeeDirectory.dto.create.EmployeeCreateDto;
+import com.example.EmployeeDirectory.dto.update.EmployeeUpdateDto;
 import com.example.EmployeeDirectory.services.EmployeeService;
 import com.example.EmployeeDirectory.web.exception.ModelNotFoundException;
 import com.example.EmployeeDirectory.web.responses.EmployeeResponseDto;
@@ -17,8 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {

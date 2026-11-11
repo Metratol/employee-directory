@@ -1,4 +1,4 @@
-package com.example.EmployeeDirectory.repositories.dto.create;
+package com.example.EmployeeDirectory.dto.create;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

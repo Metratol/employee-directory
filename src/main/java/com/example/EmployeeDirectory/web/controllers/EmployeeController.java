@@ -1,9 +1,8 @@
 package com.example.EmployeeDirectory.web.controllers;
 
-import com.example.EmployeeDirectory.repositories.dto.create.EmployeeCreateDto;
-import com.example.EmployeeDirectory.repositories.dto.update.EmployeeUpdateDto;
+import com.example.EmployeeDirectory.dto.create.EmployeeCreateDto;
+import com.example.EmployeeDirectory.dto.update.EmployeeUpdateDto;
 import com.example.EmployeeDirectory.services.EmployeeService;
-import com.example.EmployeeDirectory.web.exception.ConflictException;
 import com.example.EmployeeDirectory.web.responses.EmployeeResponseDto;
 import com.example.EmployeeDirectory.web.views.EmployeeView;
 import jakarta.validation.Valid;
@@ -16,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/employee")

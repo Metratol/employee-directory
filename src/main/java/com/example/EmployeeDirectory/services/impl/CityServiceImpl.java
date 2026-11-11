@@ -4,7 +4,7 @@ import com.example.EmployeeDirectory.entity.City;
 import com.example.EmployeeDirectory.mappers.CityMapper;
 import com.example.EmployeeDirectory.web.exception.ConflictException;
 import com.example.EmployeeDirectory.repositories.CityRepository;
-import com.example.EmployeeDirectory.repositories.dto.create.CityCreateDto;
+import com.example.EmployeeDirectory.dto.create.CityCreateDto;
 import com.example.EmployeeDirectory.web.exception.ModelNotFoundException;
 import com.example.EmployeeDirectory.web.responses.CityResponseDto;
 import com.example.EmployeeDirectory.services.CityService;

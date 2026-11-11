@@ -2,6 +2,7 @@ package com.example.EmployeeDirectory.web.controllers;
 
 import com.example.EmployeeDirectory.repositories.dto.create.CityCreateDto;
 import com.example.EmployeeDirectory.services.CityService;
+import com.example.EmployeeDirectory.web.exception.ConflictException;
 import com.example.EmployeeDirectory.web.responses.CityResponseDto;
 import com.example.EmployeeDirectory.web.views.CityView;
 import jakarta.validation.Valid;
@@ -32,7 +33,7 @@ public class CityController {
 
     @DeleteMapping("/delete/{name}")
     public ResponseEntity<String> delete(@PathVariable("name") String name){
-        cityService.delete(name);
+        if(!cityService.delete(name)) throw new ConflictException("Не удалось удалить");
         return ResponseEntity.ok(String.format("Город %s успешно удален", name));
     }
 }

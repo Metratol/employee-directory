@@ -3,6 +3,7 @@ package com.example.EmployeeDirectory.web.controllers;
 import com.example.EmployeeDirectory.repositories.dto.create.EmployeeCreateDto;
 import com.example.EmployeeDirectory.repositories.dto.update.EmployeeUpdateDto;
 import com.example.EmployeeDirectory.services.EmployeeService;
+import com.example.EmployeeDirectory.web.exception.ConflictException;
 import com.example.EmployeeDirectory.web.responses.EmployeeResponseDto;
 import com.example.EmployeeDirectory.web.views.EmployeeView;
 import jakarta.validation.Valid;
@@ -82,7 +83,7 @@ public class EmployeeController {
     }
     @DeleteMapping("/delete/{docsNo}")
     public ResponseEntity<String> delete(@PathVariable("docsNo") String docsNo){
-        employeeService.delete(docsNo);
+        if(!employeeService.delete(docsNo)) throw new ConflictException("Не удалось удалить");
         return ResponseEntity.ok("Удален пользователь с номером документов " + docsNo);
     }
 }

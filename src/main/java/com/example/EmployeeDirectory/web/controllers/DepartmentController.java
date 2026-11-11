@@ -4,6 +4,7 @@ import com.example.EmployeeDirectory.repositories.dto.create.DepartmentCreateDto
 import com.example.EmployeeDirectory.repositories.dto.update.DepartmentCityUpdateDto;
 import com.example.EmployeeDirectory.repositories.dto.update.DepartmentNameUpdateDto;
 import com.example.EmployeeDirectory.services.DepartmentService;
+import com.example.EmployeeDirectory.web.exception.ConflictException;
 import com.example.EmployeeDirectory.web.responses.DepartmentResponseDto;
 import com.example.EmployeeDirectory.web.views.DepartmentView;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,9 +48,10 @@ public class DepartmentController{
     public ResponseEntity<DepartmentResponseDto> updateCity(@Valid @RequestBody DepartmentCityUpdateDto update){
         return ResponseEntity.ok(department.moveToAnotherCity(update));
     }
+    @Validated
     @DeleteMapping("/delete/{cityName}/{departmentName}")
     public ResponseEntity<String> delete(@NotNull @PathVariable("cityName") String cityName, @NotNull @PathVariable("departmentName") String departmentName){
-        department.delete(departmentName,cityName);
+        if(!department.delete(departmentName,cityName)) throw new ConflictException("Не удалось удалить");
         return ResponseEntity.ok(String.format("Удален отдел %s в городе %s",departmentName, cityName));
     }
 

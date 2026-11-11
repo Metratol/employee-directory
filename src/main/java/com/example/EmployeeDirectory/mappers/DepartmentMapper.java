@@ -11,6 +11,9 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface DepartmentMapper {
+    @Mapping(target = "cityName", source = "city.name")
+    DepartmentView toView(Department department);
+    @Mapping(target = "cityName", source = "city.name")
     List<DepartmentView> toViews(List<Department> department);
     @Mapping(target = "city", source = "city.name")
     DepartmentResponseDto toResponse(Department department);

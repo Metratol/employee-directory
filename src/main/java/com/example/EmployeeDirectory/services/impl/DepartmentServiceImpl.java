@@ -46,11 +46,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Transactional
     @Override
     public DepartmentResponseDto create(DepartmentCreateDto dto) {
-        Optional<City> city = cityRepository.findByName(dto.name());
+        Optional<City> city = cityRepository.findByName(dto.cityName());
         if(city.isEmpty()){
-            throw new ModelNotFoundException("Указанный город не найден! Проверьте название или добавьте новый город.");
+            throw new ModelNotFoundException("Указанный город не найден! Проверьте название или добавьте новый город. Через /cities");
         }
-        if(!departmentRepository.existsByName(dto.cityName())){
+        if(departmentRepository.existsByName(dto.name())){
             throw new ConflictException("Отдел уже существует");
         }
         Department department = new Department(dto.name(), city.get());

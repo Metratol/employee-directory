@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,6 +24,8 @@ public class Department extends Base {
     @JoinColumn(name = "city_id", referencedColumnName = "id", nullable = false)
     private City city;
 
+    @OneToMany(mappedBy = "department", cascade = CascadeType.REMOVE)
+    private List<Employee> employees = new ArrayList<>();
 
     @Override
     public Long getId() {

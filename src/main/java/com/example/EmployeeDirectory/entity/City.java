@@ -1,12 +1,11 @@
 package com.example.EmployeeDirectory.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.*;
 
 @Getter
 @Setter
@@ -20,6 +19,8 @@ public class City extends Base{
 
     @Column(name = "name", nullable = false, unique = true, length = 40)
     private String name;
+    @OneToMany(mappedBy = "city", cascade = CascadeType.REMOVE)
+    private List<Department> departments = new ArrayList<>();
 
     @Override
     public Long getId() {

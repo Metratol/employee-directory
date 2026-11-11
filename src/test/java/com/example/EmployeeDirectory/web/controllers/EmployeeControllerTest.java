@@ -144,7 +144,7 @@ class EmployeeControllerTest {
 
     @Test
     void byDocsNumber_shouldReturn200AndBody() throws Exception {
-        String docs = "1022029";
+        String docs = "1022029000";
         EmployeeView view = new EmployeeView("Иван", "Иванов", "+7999", "IT", "Москва");
         given(employeeService.getByDocsNo(docs)).willReturn(view);
 
@@ -158,11 +158,11 @@ class EmployeeControllerTest {
 
     @Test
     void byDocsNumber_shouldReturn404_whenEmployeeMissing() throws Exception {
-        given(employeeService.getByDocsNo("1022029"))
+        given(employeeService.getByDocsNo("1022029000"))
                 .willThrow(new ModelNotFoundException("Не найден"));
 
         mockMvc.perform(get("/employee/docs")
-                        .param("docsNumber", "1022029"))
+                        .param("docsNumber", "1022029000"))
                 .andExpect(status().isNotFound());
     }
 
@@ -186,7 +186,7 @@ class EmployeeControllerTest {
 
     @Test
     void create_shouldReturn201AndBody() throws Exception {
-        EmployeeCreateDto request = new EmployeeCreateDto("Иван", "Иванов", "1022029","+7999", "IT", "Москва");
+        EmployeeCreateDto request = new EmployeeCreateDto("Иван", "Иванов", "1022029000","+7999", "IT", "Москва");
         EmployeeResponseDto response = new EmployeeResponseDto("Иван", "Иванов", "+7999",  "IT", "Москва");
 
         given(employeeService.create(any(EmployeeCreateDto.class))).willReturn(response);
@@ -199,7 +199,7 @@ class EmployeeControllerTest {
 
         ArgumentCaptor<EmployeeCreateDto> captor = ArgumentCaptor.forClass(EmployeeCreateDto.class);
         then(employeeService).should().create(captor.capture());
-        EmployeeCreateDto expected = new EmployeeCreateDto("Иван", "Иванов", "+7999", "1022029", "IT", "Москва");
+        EmployeeCreateDto expected = new EmployeeCreateDto("Иван", "Иванов", "+7999", "1022029000", "IT", "Москва");
         assertThat(captor.getValue()).isEqualTo(expected);;
     }
 
@@ -218,7 +218,7 @@ class EmployeeControllerTest {
 
     @Test
     void update_shouldReturn200AndBody() throws Exception {
-        EmployeeUpdateDto request = new EmployeeUpdateDto("1022029", "Иван", "Иванов", "+7999", "IT", "Москва");
+        EmployeeUpdateDto request = new EmployeeUpdateDto("1022029000", "Иван", "Иванов", "+7999", "IT", "Москва");
         EmployeeResponseDto response = new EmployeeResponseDto( "Иван", "Иванов","+7999","IT","Москва");
 
         given(employeeService.update(any(EmployeeUpdateDto.class))).willReturn(response);
@@ -231,27 +231,27 @@ class EmployeeControllerTest {
 
         ArgumentCaptor<EmployeeUpdateDto> captor = ArgumentCaptor.forClass(EmployeeUpdateDto.class);
         then(employeeService).should().update(captor.capture());
-        assertThat(captor.getValue().docsNo()).isEqualTo("1022029");
+        assertThat(captor.getValue().docsNo()).isEqualTo("1022029000");
     }
 
 
     @Test
     void delete_shouldReturn200AndMessage() throws Exception {
-        given(employeeService.delete("1022029")).willReturn(true);
+        given(employeeService.delete("1022029000")).willReturn(true);
 
-        mockMvc.perform(delete("/employee/{docsNo}", "1022029"))
+        mockMvc.perform(delete("/employee/{docsNo}", "1022029000"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Удален пользователь"));
 
-        then(employeeService).should().delete("1022029");
+        then(employeeService).should().delete("1022029000");
     }
 
     @Test
     void delete_shouldReturn404_whenEmployeeMissing() throws Exception {
-        given(employeeService.delete("1022029"))
+        given(employeeService.delete("1022029000"))
                 .willThrow(new ModelNotFoundException("Сотрудник не найден"));
 
-        mockMvc.perform(delete("/employee/{docsNo}", "1022029"))
+        mockMvc.perform(delete("/employee/{docsNo}", "1022029000"))
                 .andExpect(status().isNotFound());
     }
 }

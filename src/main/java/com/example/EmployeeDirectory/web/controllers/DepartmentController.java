@@ -4,7 +4,6 @@ import com.example.EmployeeDirectory.repositories.dto.create.DepartmentCreateDto
 import com.example.EmployeeDirectory.repositories.dto.update.DepartmentCityUpdateDto;
 import com.example.EmployeeDirectory.repositories.dto.update.DepartmentNameUpdateDto;
 import com.example.EmployeeDirectory.services.DepartmentService;
-import com.example.EmployeeDirectory.web.exception.ConflictException;
 import com.example.EmployeeDirectory.web.responses.DepartmentResponseDto;
 import com.example.EmployeeDirectory.web.views.DepartmentView;
 import jakarta.validation.Valid;
@@ -51,6 +50,7 @@ public class DepartmentController{
     @Validated
     @DeleteMapping("/{cityName}/{departmentName}")
     public ResponseEntity<String> delete(@NotNull @PathVariable("cityName") String cityName, @NotNull @PathVariable("departmentName") String departmentName){
+        department.delete(departmentName,cityName);
         return ResponseEntity.ok(String.format("Удален отдел %s в городе %s",departmentName, cityName));
     }
 

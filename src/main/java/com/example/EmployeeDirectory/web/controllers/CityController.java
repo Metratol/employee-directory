@@ -33,6 +33,7 @@ public class CityController {
 
     @DeleteMapping("/{name}")
     public ResponseEntity<String> delete(@PathVariable("name") String name){
+        cityService.delete(name);
         return ResponseEntity.ok(String.format("Город %s успешно удален", name));
     }
 }

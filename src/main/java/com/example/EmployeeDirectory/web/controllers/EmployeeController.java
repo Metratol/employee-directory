@@ -83,6 +83,7 @@ public class EmployeeController {
     }
     @DeleteMapping("/{docsNo}")
     public ResponseEntity<String> delete(@PathVariable("docsNo") String docsNo){
+        employeeService.delete(docsNo);
         return ResponseEntity.ok("Удален пользователь");
     }
 }

@@ -8,18 +8,17 @@ import com.example.EmployeeDirectory.repositories.CityRepository;
 import com.example.EmployeeDirectory.repositories.DepartmentRepository;
 import com.example.EmployeeDirectory.repositories.EmployeeRepository;
 import com.example.EmployeeDirectory.repositories.dto.create.EmployeeCreateDto;
-
+import com.example.EmployeeDirectory.repositories.dto.update.EmployeeUpdateDto;
 import com.example.EmployeeDirectory.services.EmployeeService;
 import com.example.EmployeeDirectory.web.exception.ModelNotFoundException;
 import com.example.EmployeeDirectory.web.responses.EmployeeResponseDto;
 import com.example.EmployeeDirectory.web.views.EmployeeView;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -75,16 +74,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     @Override
     public EmployeeResponseDto create(EmployeeCreateDto dto) {
-        Optional<City> city = cityRepository.findByName(dto.cityName());
-        if(city.isEmpty()){
-            throw new ModelNotFoundException("Указанный город не найден! Проверьте название или добавьте новый город через /cities.");
-        }
-        Optional<Department> department = departmentRepository.getByName(dto.departmentName());
-        if(department.isEmpty()){
-            throw new ModelNotFoundException("Указанный отдел не найден! Проверьте название или добавьте новый отдел через /departments.");
-        }
-        Employee employee = mapper.toModel(dto, department.get());
+        City city = cityRepository.findByName(dto.cityName())
+                .orElseThrow(() -> new ModelNotFoundException("Указанный город не найден! Проверьте название или добавьте новый город через /cities."));
+        Department department = departmentRepository.getByName(dto.departmentName())
+                .orElseThrow(() -> new ModelNotFoundException("Указанный отдел не найден! Проверьте название или добавьте новый отдел через /departments."));
+        Employee employee = mapper.toModel(dto, department);
         employeeRepository.save(employee);
+        return mapper.toResponse(employee);
+    }
+
+    @Override
+    public EmployeeResponseDto update(EmployeeUpdateDto dto) {
+        Employee employee = employeeRepository.findByDocsNo(dto.docsNo()).
+                orElseThrow(() -> new ModelNotFoundException("Пользователь с указанными документами не найден"));
+        Department department = departmentRepository.getByName(dto.departmentName())
+                .orElseThrow(() -> new ModelNotFoundException("Указанный отдел не найден! Проверьте название или добавьте новый отдел через /departments."));
+        mapper.update(dto, department, employee);
+
+        employeeRepository.save(employee);
+
         return mapper.toResponse(employee);
     }
 

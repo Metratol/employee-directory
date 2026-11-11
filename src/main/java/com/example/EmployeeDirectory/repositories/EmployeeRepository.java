@@ -71,6 +71,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "WHERE emp.docsNo = :docsNo "
     )
     Optional<EmployeeView> findDtoByDocsNo(@Param("docsNo") String docsNo);
+    Optional<Employee> findByDocsNo(String docsNo);
 
     @Query("SELECT new com.example.EmployeeDirectory.web.views.EmployeeView(emp.firstName, emp.secondName, emp.phoneNumber, dep.name, city.name) " +
             "FROM Employee emp " +

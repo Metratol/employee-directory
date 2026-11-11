@@ -1,6 +1,7 @@
 package com.example.EmployeeDirectory.services;
 
 import com.example.EmployeeDirectory.repositories.dto.create.EmployeeCreateDto;
+import com.example.EmployeeDirectory.repositories.dto.update.EmployeeUpdateDto;
 import com.example.EmployeeDirectory.web.responses.EmployeeResponseDto;
 import com.example.EmployeeDirectory.web.views.EmployeeView;
 
@@ -23,4 +24,5 @@ public interface EmployeeService {
     List<EmployeeView> getByFullName(String firstName, String secondName);
 
     EmployeeResponseDto create (EmployeeCreateDto dto);
+    EmployeeResponseDto update(EmployeeUpdateDto dto);
 }

@@ -14,7 +14,7 @@ import lombok.Setter;
 @Table(name = "department")
 public class Department extends Base {
 
-    @Column(name = "name", unique = true, nullable = false, length = 70)
+    @Column(name = "name", nullable = false, length = 70)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

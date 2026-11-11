@@ -12,7 +12,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "employee")
+@Table(name = "employee", indexes = {
+        @Index(
+                name = "idx_employee_fullname",
+                columnList = "first_name, second_name"
+        )
+})
 public class Employee extends Base {
 
     @Column(name = "first_name",length = 20, nullable = false)

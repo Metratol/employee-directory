@@ -11,6 +11,6 @@ public record EmployeeCreateDto(
         @NotNull @Size(min = 10, max = 10)String docsNo,
 
         @NotNull @Pattern(regexp = "\\+?[0-9]{7,15}") String phoneNumber,
-        @NotNull @NotBlank String departmentName,
-        @NotNull @NotBlank String cityName) {
+        @NotBlank String departmentName,
+        @NotBlank String cityName) {
 }

@@ -6,5 +6,5 @@ import jakarta.validation.constraints.Size;
 
 public record DepartmentCreateDto(
         @NotNull @Size(min=2, max=70) String name,
-        @NotNull @NotBlank String cityName) {
+        @NotBlank String cityName) {
 }

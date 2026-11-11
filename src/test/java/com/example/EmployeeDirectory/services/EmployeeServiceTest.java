@@ -132,7 +132,7 @@ class EmployeeServiceTest {
     void update_shouldThrow_whenEmployeeMissing() {
         EmployeeUpdateDto dto = updateDto("1022029000", "Москва", "IT");
 
-        given(employeeRepository.findByDocsNo("1022029")).willReturn(Optional.empty());
+        given(employeeRepository.findByDocsNo("1022029000")).willReturn(Optional.empty());
 
         assertThatThrownBy(() -> service.update(dto))
                 .isInstanceOf(ModelNotFoundException.class)
@@ -163,7 +163,7 @@ class EmployeeServiceTest {
 
     @Test
     void update_shouldApplyMapperAndSave_whenEverythingFound() {
-        EmployeeUpdateDto dto = updateDto("1022029", "Москва", "IT");
+        EmployeeUpdateDto dto = updateDto("1022029000", "Москва", "IT");
         Employee employee = new Employee("Иван", "Иванов", "+7999", "1022029000",
                 new Department("Sales", new City("Пермь")));
         Department it = new Department("IT", new City("Москва"));
@@ -197,7 +197,7 @@ class EmployeeServiceTest {
     void delete_shouldDeleteAndReturnTrue_whenEmployeeExists() {
         Employee employee = new Employee("Иван", "Иванов", "+7999", "1022029000",
                 new Department("IT", new City("Москва")));
-        given(employeeRepository.findByDocsNo("1022029")).willReturn(Optional.of(employee));
+        given(employeeRepository.findByDocsNo("1022029000")).willReturn(Optional.of(employee));
 
         boolean result = service.delete("1022029000");
 

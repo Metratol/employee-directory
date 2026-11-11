@@ -43,7 +43,7 @@ class EmployeeControllerTest {
 
     @Test
     void getAll_shouldCallGetAllByDepartmentAndCity_whenBothParamsPresent() throws Exception {
-        Page<EmployeeView> page = new PageImpl<>(List.of(new EmployeeView("Иван", "Иванов", "+7999", "IT", "Москва")));
+        Page<EmployeeView> page = new PageImpl<>(List.of(new EmployeeView("Иван", "Иванов", "+79991234567", "IT", "Москва")));
         given(employeeService.getAllByDepartmentAndCity(any(Pageable.class), eq("IT"), eq("Москва")))
                 .willReturn(page);
 
@@ -64,7 +64,7 @@ class EmployeeControllerTest {
 
     @Test
     void getAll_shouldCallGetAllByCity_whenOnlyCityPresent() throws Exception {
-        Page<EmployeeView> page = new PageImpl<>(List.of(new EmployeeView("Иван", "Иванов", "+7999", "IT", "Москва")));
+        Page<EmployeeView> page = new PageImpl<>(List.of(new EmployeeView("Иван", "Иванов", "+79991234567", "IT", "Москва")));
         given(employeeService.getAllByCity(any(Pageable.class), eq("Москва"))).willReturn(page);
 
         mockMvc.perform(get("/employee")
@@ -80,7 +80,7 @@ class EmployeeControllerTest {
 
     @Test
     void getAll_shouldCallGetAllByDepartment_whenOnlyDepartmentPresent() throws Exception {
-        Page<EmployeeView> page = new PageImpl<>(List.of(new EmployeeView("Иван", "Иванов", "+7999", "IT", "Москва")));
+        Page<EmployeeView> page = new PageImpl<>(List.of(new EmployeeView("Иван", "Иванов", "+79991234567", "IT", "Москва")));
         given(employeeService.getAllByDepartment(any(Pageable.class), eq("IT"))).willReturn(page);
 
         mockMvc.perform(get("/employee")
@@ -95,7 +95,7 @@ class EmployeeControllerTest {
 
     @Test
     void getAll_shouldCallGetAll_whenNoParamsPresent() throws Exception {
-        Page<EmployeeView> page = new PageImpl<>(List.of(new EmployeeView("Иван", "Иванов", "+7999", "IT", "Москва")));
+        Page<EmployeeView> page = new PageImpl<>(List.of(new EmployeeView("Иван", "Иванов", "+79991234567", "IT", "Москва")));
         given(employeeService.getAll(any(Pageable.class))).willReturn(page);
 
         mockMvc.perform(get("/employee")
@@ -125,7 +125,7 @@ class EmployeeControllerTest {
     @Test
     void byPhoneNumber_shouldReturn400_whenPhoneFormatInvalid() throws Exception {
         mockMvc.perform(get("/employee/phoneNumber")
-                        .param("phoneNumber", "123"))
+                        .param("phoneNumber", "+79"))
                 .andExpect(status().isBadRequest());
 
         then(employeeService).shouldHaveNoInteractions();
@@ -133,11 +133,11 @@ class EmployeeControllerTest {
 
     @Test
     void byPhoneNumber_shouldReturn404_whenEmployeeMissing() throws Exception {
-        given(employeeService.getByPhoneNumber("+79859999999"))
+        given(employeeService.getByPhoneNumber("+79991234567"))
                 .willThrow(new ModelNotFoundException("Не найден"));
 
         mockMvc.perform(get("/employee/phoneNumber")
-                        .param("phoneNumber", "+79859999999"))
+                        .param("phoneNumber", "+79991234567"))
                 .andExpect(status().isNotFound());
     }
 
@@ -145,7 +145,7 @@ class EmployeeControllerTest {
     @Test
     void byDocsNumber_shouldReturn200AndBody() throws Exception {
         String docs = "1022029000";
-        EmployeeView view = new EmployeeView("Иван", "Иванов", "+7999", "IT", "Москва");
+        EmployeeView view = new EmployeeView("Иван", "Иванов", "+79991234567", "IT", "Москва");
         given(employeeService.getByDocsNo(docs)).willReturn(view);
 
         mockMvc.perform(get("/employee/docs")
@@ -169,7 +169,7 @@ class EmployeeControllerTest {
 
     @Test
     void byFullName_shouldReturn200AndBody() throws Exception {
-        Page<EmployeeView> page = new PageImpl<>(List.of(new EmployeeView("Иван", "Иванов", "+7999", "IT", "Москва")));
+        Page<EmployeeView> page = new PageImpl<>(List.of(new EmployeeView("Иван", "Иванов", "+79991234567", "IT", "Москва")));
         given(employeeService.getByFullName(eq("Иван"), eq("Иванов"), any(Pageable.class)))
                 .willReturn(page);
 
@@ -186,8 +186,8 @@ class EmployeeControllerTest {
 
     @Test
     void create_shouldReturn201AndBody() throws Exception {
-        EmployeeCreateDto request = new EmployeeCreateDto("Иван", "Иванов", "1022029000","+7999", "IT", "Москва");
-        EmployeeResponseDto response = new EmployeeResponseDto("Иван", "Иванов", "+7999",  "IT", "Москва");
+        EmployeeCreateDto request = new EmployeeCreateDto("Иван", "Иванов", "1022029000","+79991234567", "IT", "Москва");
+        EmployeeResponseDto response = new EmployeeResponseDto("Иван", "Иванов", "+79991234567",  "IT", "Москва");
 
         given(employeeService.create(any(EmployeeCreateDto.class))).willReturn(response);
 
@@ -199,7 +199,7 @@ class EmployeeControllerTest {
 
         ArgumentCaptor<EmployeeCreateDto> captor = ArgumentCaptor.forClass(EmployeeCreateDto.class);
         then(employeeService).should().create(captor.capture());
-        EmployeeCreateDto expected = new EmployeeCreateDto("Иван", "Иванов",  "1022029000", "+7999", "IT", "Москва");
+        EmployeeCreateDto expected = new EmployeeCreateDto("Иван", "Иванов",  "1022029000", "+79991234567", "IT", "Москва");
         assertThat(captor.getValue()).isEqualTo(expected);;
     }
 
@@ -218,8 +218,8 @@ class EmployeeControllerTest {
 
     @Test
     void update_shouldReturn200AndBody() throws Exception {
-        EmployeeUpdateDto request = new EmployeeUpdateDto("1022029000", "Иван", "Иванов", "+7999", "IT", "Москва");
-        EmployeeResponseDto response = new EmployeeResponseDto( "Иван", "Иванов","+7999","IT","Москва");
+        EmployeeUpdateDto request = new EmployeeUpdateDto("1022029000", "Иван", "Иванов", "+79991234567", "IT", "Москва");
+        EmployeeResponseDto response = new EmployeeResponseDto( "Иван", "Иванов","+79991234567","IT","Москва");
 
         given(employeeService.update(any(EmployeeUpdateDto.class))).willReturn(response);
 
@@ -227,7 +227,7 @@ class EmployeeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Иван"));
+                .andExpect(jsonPath("$.firstName").value("Иван"));
 
         ArgumentCaptor<EmployeeUpdateDto> captor = ArgumentCaptor.forClass(EmployeeUpdateDto.class);
         then(employeeService).should().update(captor.capture());

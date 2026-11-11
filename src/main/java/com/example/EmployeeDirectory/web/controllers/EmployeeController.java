@@ -54,7 +54,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getAll(pageable));
     }
     @GetMapping("/phoneNumber")
-    public ResponseEntity<EmployeeView> byPhoneNumber(@RequestParam("phoneNumber")
+    public ResponseEntity<EmployeeView> byPhoneNumber(@Valid @RequestParam("phoneNumber")
                                                              @Pattern(regexp = "^(\\+7|7|8)?\\d{10}$",
                                                                      message = "Некорректный номер телефона")
                                                                         String phone){

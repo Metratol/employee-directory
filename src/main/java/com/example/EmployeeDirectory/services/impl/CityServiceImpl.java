@@ -46,7 +46,7 @@ public class CityServiceImpl implements CityService {
     public boolean delete(String name) {
         City city = repository.findByName(name)
                 .orElseThrow(() -> new ModelNotFoundException("Город не найден"));
-       repository.deleteByName(name);
+       repository.delete(city);
        return true ;
     }
 }

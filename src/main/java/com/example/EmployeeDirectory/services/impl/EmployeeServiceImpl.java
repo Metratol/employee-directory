@@ -76,18 +76,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeResponseDto create(EmployeeCreateDto dto) {
         City city = cityRepository.findByName(dto.cityName())
                 .orElseThrow(() -> new ModelNotFoundException("Указанный город не найден! Проверьте название или добавьте новый город через /cities."));
-        Department department = departmentRepository.getByName(dto.departmentName())
+        Department department = departmentRepository.findByNameAndCity_Name(dto.departmentName(),dto.cityName())
                 .orElseThrow(() -> new ModelNotFoundException("Указанный отдел не найден! Проверьте название или добавьте новый отдел через /departments."));
         Employee employee = mapper.toModel(dto, department);
         employeeRepository.save(employee);
         return mapper.toResponse(employee);
     }
-
+    @Transactional
     @Override
     public EmployeeResponseDto update(EmployeeUpdateDto dto) {
         Employee employee = employeeRepository.findByDocsNo(dto.docsNo()).
                 orElseThrow(() -> new ModelNotFoundException("Пользователь с указанными документами не найден"));
-        Department department = departmentRepository.getByName(dto.departmentName())
+        Department department = departmentRepository.findByNameAndCity_Name(dto.departmentName(),dto.cityName())
                 .orElseThrow(() -> new ModelNotFoundException("Указанный отдел не найден! Проверьте название или добавьте новый отдел через /departments."));
         mapper.update(dto, department, employee);
 

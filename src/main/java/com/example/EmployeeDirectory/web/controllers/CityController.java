@@ -33,7 +33,6 @@ public class CityController {
 
     @DeleteMapping("/{name}")
     public ResponseEntity<String> delete(@PathVariable("name") String name){
-        if(!cityService.delete(name)) throw new ConflictException("Не удалось удалить");
         return ResponseEntity.ok(String.format("Город %s успешно удален", name));
     }
 }

@@ -82,6 +82,4 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     )
     Optional<EmployeeView> findDtoByPhoneNumber(@Param("phoneNumber") String phoneNumber);
 
-    boolean deleteByDocsNo(String docsNo);
-
 }

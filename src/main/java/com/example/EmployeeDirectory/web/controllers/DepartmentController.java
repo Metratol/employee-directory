@@ -51,7 +51,6 @@ public class DepartmentController{
     @Validated
     @DeleteMapping("/{cityName}/{departmentName}")
     public ResponseEntity<String> delete(@NotNull @PathVariable("cityName") String cityName, @NotNull @PathVariable("departmentName") String departmentName){
-        if(!department.delete(departmentName,cityName)) throw new ConflictException("Не удалось удалить");
         return ResponseEntity.ok(String.format("Удален отдел %s в городе %s",departmentName, cityName));
     }
 

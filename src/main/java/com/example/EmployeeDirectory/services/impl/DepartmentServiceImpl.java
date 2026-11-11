@@ -113,6 +113,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Transactional
     @Override
     public boolean delete(String name, String cityName) {
+        departmentRepository.findByNameAndCity_Name(name, cityName)
+                .orElseThrow(() -> new ModelNotFoundException("Отдел не найден"));
         return departmentRepository.deleteByNameAndCity_Name(name, cityName);
     }
 

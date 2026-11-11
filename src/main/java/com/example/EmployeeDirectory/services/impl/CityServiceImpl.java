@@ -5,6 +5,7 @@ import com.example.EmployeeDirectory.mappers.CityMapper;
 import com.example.EmployeeDirectory.web.exception.ConflictException;
 import com.example.EmployeeDirectory.repositories.CityRepository;
 import com.example.EmployeeDirectory.repositories.dto.create.CityCreateDto;
+import com.example.EmployeeDirectory.web.exception.ModelNotFoundException;
 import com.example.EmployeeDirectory.web.responses.CityResponseDto;
 import com.example.EmployeeDirectory.services.CityService;
 import com.example.EmployeeDirectory.web.views.CityView;
@@ -43,6 +44,8 @@ public class CityServiceImpl implements CityService {
     @Transactional
     @Override
     public boolean delete(String name) {
+        repository.findByName(name)
+                .orElseThrow(() -> new ModelNotFoundException("Город не найден"));
         return repository.deleteByName(name);
     }
 }

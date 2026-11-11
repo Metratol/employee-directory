@@ -87,7 +87,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         departmentRepository.save(department);
         return mapper.toResponse(department);
     }
-
+    @Transactional
     @Override
     public boolean delete(String name, String cityName) {
         return departmentRepository.deleteByNameAndCity_Name(name, cityName);

@@ -63,16 +63,19 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Transactional
     @Override
     public DepartmentResponseDto update(DepartmentNameUpdateDto dto) {
+
+
+        City city = cityRepository.findByName(dto.city()).orElseThrow(() -> new ModelNotFoundException("Указанный город не найден! Проверьте название."));
+
         departmentRepository.findByNameAndCity_Name(dto.newDepartmentName(),dto.city()).orElseThrow(() -> new ConflictException("Отдел с данным названием уже существует в указанном городе"));
-        Optional<City> city = cityRepository.findByName(dto.city());
-        if(city.isEmpty()){
-            throw new ModelNotFoundException("Указанный город не найден! Проверьте название.");
+
+        Department department = departmentRepository.findByNameAndCity_Name(dto.departmentName(), dto.city()).orElseThrow(() -> new ModelNotFoundException("Отдела не существует. Проверьте название и город."));
+
+        if(dto.departmentName().equals(dto.newDepartmentName())){
+            return mapper.toResponse(department);
         }
-        Optional<Department> container = departmentRepository.findByNameAndCity_Name(dto.departmentName(), dto.city());
-        if(container.isEmpty()){
-            throw new ModelNotFoundException("Отдела не существует. Проверьте название и город.");
-        }
-        Department department = container.get();
+
+
         department.setName(dto.newDepartmentName());
 
         departmentRepository.save(department);
@@ -81,11 +84,23 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Transactional
     @Override
     public DepartmentResponseDto moveToAnotherCity(DepartmentCityUpdateDto dto) {
-        departmentRepository.findByNameAndCity_Name(dto.departmentName(),dto.newCityName()).orElseThrow(() -> new ConflictException("Отдел с данным названием уже существует в указанном городе"));
+
+
+
         City city = cityRepository.findByName(dto.newCityName())
                 .orElseThrow(() -> new ModelNotFoundException("Указанный город не найден! Проверьте название или добавьте новый город. Через /cities."));
+
+
+        departmentRepository.findByNameAndCity_Name(dto.departmentName(),dto.newCityName()).orElseThrow(() -> new ConflictException("Отдел с данным названием уже существует в указанном городе"));
+
+
         Department department = departmentRepository.findByNameAndCity_Name(dto.departmentName(), dto.oldCityName())
                 .orElseThrow(() ->  new ModelNotFoundException("Отдела не существует. Проверьте название или город."));
+
+        if(dto.newCityName().equals(dto.oldCityName())){
+            return mapper.toResponse(department);
+        }
+
         department.setCity(city);
 
         departmentRepository.save(department);

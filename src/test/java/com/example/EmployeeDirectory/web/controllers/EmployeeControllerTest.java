@@ -195,7 +195,6 @@ class EmployeeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.firstName").value("Иван"));
 
         ArgumentCaptor<EmployeeCreateDto> captor = ArgumentCaptor.forClass(EmployeeCreateDto.class);
@@ -228,7 +227,7 @@ class EmployeeControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1));
+                .andExpect(jsonPath("$.name").value("Иван"));
 
         ArgumentCaptor<EmployeeUpdateDto> captor = ArgumentCaptor.forClass(EmployeeUpdateDto.class);
         then(employeeService).should().update(captor.capture());

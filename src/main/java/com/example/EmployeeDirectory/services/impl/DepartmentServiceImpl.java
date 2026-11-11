@@ -67,7 +67,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         City city = cityRepository.findByName(dto.city()).orElseThrow(() -> new ModelNotFoundException("Указанный город не найден! Проверьте название."));
 
-        if(departmentRepository.findByNameAndCity_Name(dto.departmentName(),dto.city()).isPresent()){
+        if(departmentRepository.findByNameAndCity_Name(dto.newDepartmentName(),dto.city()).isPresent()){
             throw new ConflictException("Отдел с данным названием уже существует в указанном городе");
         }
 
@@ -101,9 +101,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         Department department = departmentRepository.findByNameAndCity_Name(dto.departmentName(), dto.oldCityName())
                 .orElseThrow(() ->  new ModelNotFoundException("Отдела не существует. Проверьте название или город."));
 
-        if(dto.newCityName().equals(dto.oldCityName())){
-            return mapper.toResponse(department);
-        }
+
 
         department.setCity(city);
 

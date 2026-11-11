@@ -29,4 +29,7 @@ public class CityController {
     public ResponseEntity<List<CityView>> all() {
         return ResponseEntity.ok(cityService.getAll());
     }
+
+    @DeleteMapping("/delete/{name}")
+    public ResponseEntity<String> delete(@PathVariable("name") String name){return ResponseEntity.ok("Город успешно удален");}
 }

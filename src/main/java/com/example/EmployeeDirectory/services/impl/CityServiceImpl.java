@@ -40,4 +40,9 @@ public class CityServiceImpl implements CityService {
 
 
     }
+
+    @Override
+    public boolean delete(String name) {
+        return repository.deleteByName(name);
+    }
 }

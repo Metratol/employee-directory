@@ -10,6 +10,7 @@ public interface CityService {
 
     List<CityView> getAll();
     CityResponseDto create(CityCreateDto city);
+    boolean delete(String name);
 
 
 }

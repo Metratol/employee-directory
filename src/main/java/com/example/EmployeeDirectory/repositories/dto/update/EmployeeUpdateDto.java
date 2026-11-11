@@ -9,5 +9,6 @@ public record EmployeeUpdateDto(
         @NotNull @Size(min = 2, max = 25) String firstName,
         @NotNull @Size(min = 2, max = 40) String secondName,
         @NotNull @Pattern(regexp = "\\+?[0-9]{7,15}") String phoneNumber,
-        @NotNull String departmentName
+        @NotNull String departmentName,
+        @NotNull String cityName
 ) {}

@@ -68,8 +68,8 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getByDocsNo(docs));
     }
     @GetMapping("/fullname")
-    public ResponseEntity<List<EmployeeView>> byFullName(@RequestParam String name, @RequestParam String secondName){
-        return ResponseEntity.ok(employeeService.getByFullName(name,secondName));
+    public ResponseEntity<Page<EmployeeView>> byFullName(@RequestParam String name, @RequestParam String secondName, @PageableDefault(size = PAGE_SIZE) Pageable pageable){
+        return ResponseEntity.ok(employeeService.getByFullName(name,secondName, pageable));
     }
     @PostMapping
     public ResponseEntity<EmployeeResponseDto> create(@Valid @RequestBody EmployeeCreateDto createDto){

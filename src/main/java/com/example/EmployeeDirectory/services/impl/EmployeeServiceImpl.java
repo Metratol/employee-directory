@@ -67,8 +67,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeView> getByFullName(String firstName, String secondName) {
-        return employeeRepository.findAllDtoByFullName(firstName, secondName);
+    public Page<EmployeeView> getByFullName(String firstName, String secondName, Pageable pageable) {
+        return employeeRepository.findAllDtoByFullName(firstName, secondName,  pageable);
     }
 
     @Transactional

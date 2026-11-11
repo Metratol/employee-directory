@@ -21,7 +21,7 @@ public interface EmployeeService {
 
     EmployeeView getByPhoneNumber(String phoneNumber);
 
-    List<EmployeeView> getByFullName(String firstName, String secondName);
+    Page<EmployeeView> getByFullName(String firstName, String secondName,  Pageable pageable);
 
     EmployeeResponseDto create (EmployeeCreateDto dto);
     EmployeeResponseDto update(EmployeeUpdateDto dto);

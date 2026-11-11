@@ -9,7 +9,7 @@ public record EmployeeUpdateDto(
         @NotNull @Size(min = 10,max = 10) String docsNo,
         @NotNull @Size(min = 2, max = 20) String firstName,
         @NotNull @Size(min = 2, max = 25) String secondName,
-        @NotNull @Pattern(regexp = "\\+?[0-9]{7,15}") String phoneNumber,
+        @NotNull @Pattern(regexp = "^(\\+7|7|8)?\\d{10}$") String phoneNumber,
         @NotBlank String departmentName,
         @NotBlank String cityName
 ) {}

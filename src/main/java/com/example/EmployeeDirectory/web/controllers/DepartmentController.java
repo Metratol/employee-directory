@@ -47,9 +47,9 @@ public class DepartmentController{
         return ResponseEntity.ok(department.moveToAnotherCity(update));
     }
     @DeleteMapping("/delete/{cityName}/{departmentName}")
-    public ResponseEntity<String> delete(@NotNull String name, @NotNull String cityName){
-        department.delete(name,cityName);
-        return ResponseEntity.ok(String.format("Удален отдел %s в городе %s",name, cityName));
+    public ResponseEntity<String> delete(@NotNull @PathVariable("cityName") String cityName, @NotNull @PathVariable("departmentName") String departmentName){
+        department.delete(departmentName,cityName);
+        return ResponseEntity.ok(String.format("Удален отдел %s в городе %s",departmentName, cityName));
     }
 
 

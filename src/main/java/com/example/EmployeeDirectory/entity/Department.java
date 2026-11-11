@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "department")
+@Table(name = "department", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "city_id"})})
 public class Department extends Base {
 
     @Column(name = "name", nullable = false, length = 70)

@@ -199,7 +199,7 @@ class EmployeeControllerTest {
 
         ArgumentCaptor<EmployeeCreateDto> captor = ArgumentCaptor.forClass(EmployeeCreateDto.class);
         then(employeeService).should().create(captor.capture());
-        EmployeeCreateDto expected = new EmployeeCreateDto("Иван", "Иванов", "+7999", "1022029000", "IT", "Москва");
+        EmployeeCreateDto expected = new EmployeeCreateDto("Иван", "Иванов",  "1022029000", "+7999", "IT", "Москва");
         assertThat(captor.getValue()).isEqualTo(expected);;
     }
 

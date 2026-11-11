@@ -1,6 +1,7 @@
 package com.example.EmployeeDirectory.repositories.dto.update;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public record DepartmentNameUpdateDto(String departmentName, @Size(min=6, max=120) String newDepartmentName, String city) {
+public record DepartmentNameUpdateDto(@NotNull String departmentName, @Size(min=6, max=120) String newDepartmentName, @NotNull String city) {
 }
